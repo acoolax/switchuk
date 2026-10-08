@@ -1,0 +1,41 @@
+name: build
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows-x64
+          - os: macos-15-intel   # macOS Intel
+            name: macos-intel
+          - os: macos-latest     # macOS Apple Silicon
+            name: macos-arm
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt pyinstaller
+
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: pyinstaller --onefile --noconsole --name SwitchUK ukrswitcher.py
+
+      - name: Build (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          pyinstaller --windowed --name SwitchUK --osx-bundle-identifier com.example.switchuk ukrswitcher.py
+          plutil -insert LSUIElement -bool true dist/SwitchUK.app/Contents/Info.plist
+          codesign --force --deep --sign - dist/SwitchUK.app
+          cd dist && zip -r ../SwitchUK-${{ matrix.name }}.zip SwitchUK.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SwitchUK-${{ matrix.name }}
+          path: |
+            dist/SwitchUK.exe
+            SwitchUK-*.zip
+          if-no-files-found: ignore
