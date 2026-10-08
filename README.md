@@ -13,20 +13,20 @@
 ```bash
 python3 -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python ukrswitcher.py
+python SwitchUK.py
 ```
 
 ## Словники (рекомендовано, підвищують точність)
-Покладіть у `~/.ukrswitcher/` (Windows: `C:\Users\<ви>\.ukrswitcher\`) файли `uk.txt` і `en.txt`
+Покладіть у `~/.switchuk/` (Windows: `C:\Users\<ви>\.switchuk\`) файли `uk.txt` і `en.txt`
 (одне слово в рядок) або hunspell-словники, перейменовані в `uk.dic` та `en.dic`
 (наприклад `uk_UA.dic` і `en_US.dic` з LibreOffice dictionaries). Без словників працює евристика за біграмами.
 
 ## Збірка
-- **Windows:** `pyinstaller --onefile --noconsole --name UkrSwitcher ukrswitcher.py`
+- **Windows:** `pyinstaller --onefile --noconsole --name SwitchUK switchuk.py`
 - **macOS:** збирайте на відповідній архітектурі (Intel / ARM) —
-  `pyinstaller --windowed --name UkrSwitcher ukrswitcher.py`, потім
-  `plutil -insert LSUIElement -bool true dist/UkrSwitcher.app/Contents/Info.plist`
-  (щоб не було іконки в Dock) і `codesign --force --deep --sign - dist/UkrSwitcher.app`.
+  `pyinstaller --windowed --name SwitchUK SwitchUK.py`, потім
+  `plutil -insert LSUIElement -bool true dist/SwitchUK.app/Contents/Info.plist`
+  (щоб не було іконки в Dock) і `codesign --force --deep --sign - dist/SwitchUK.app`.
 - Або залийте проєкт на GitHub — workflow `.github/workflows/build.yml` збере всі три версії.
 
 ## macOS: дозволи
