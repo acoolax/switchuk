@@ -1,4 +1,4 @@
-# UkrSwitcher
+# SwitchUK
 
 Автоперемикач розкладки EN ↔ UA (аналог Punto Switcher) для Windows і macOS (Intel та Apple Silicon).
 
